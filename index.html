@@ -1,0 +1,142 @@
+html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login | Salesforce</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <!-- Top bar -->
+    <header class="top-bar">
+      <div class="top-bar-inner">
+        <div class="logo-container">
+          <!-- Placeholder logo circle; replace with real logo image if needed -->
+          <div class="logo-circle">SF</div>
+          <span class="logo-text">salesforce</span>
+        </div>
+        <a href="#" class="top-help-link">Help &amp; Training</a>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="main">
+      <!-- Left side: illustration / marketing block (simplified) -->
+      <section class="left-panel">
+        <div class="left-hero">
+          <h1>Welcome to Salesforce</h1>
+          <p>Log in to your account to access your CRM, data, and apps.</p>
+          <ul class="left-feature-list">
+            <li>Manage your leads and opportunities</li>
+            <li>Track customer interactions</li>
+            <li>Automate sales and service processes</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Right side: login card -->
+      <section class="right-panel">
+        <div class="login-card">
+          <h2 class="login-title">Log In</h2>
+
+          <!-- Info text / message area -->
+          <div class="login-message" id="login-message">
+            Don’t have an account? <a href="#" class="link">Talk to your Salesforce admin.</a>
+          </div>
+
+          <!-- Login form -->
+          <form class="login-form" id="login-form" novalidate>
+            <!-- Username -->
+            <div class="form-group">
+              <label for="username" class="label">Username</label>
+              <input
+                type="email"
+                id="username"
+                name="username"
+                class="input"
+                autocomplete="username"
+                required
+                placeholder="name@example.com"
+              />
+              <p class="field-error" id="username-error"></p>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+              <div class="label-row">
+                <label for="password" class="label">Password</label>
+                <a href="#" class="link small-link">Forgot Your Password?</a>
+              </div>
+              <div class="password-wrapper">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="input"
+                  autocomplete="current-password"
+                  required
+                  placeholder="Password"
+                />
+                <button
+                  type="button"
+                  class="toggle-password"
+                  id="toggle-password"
+                  aria-label="Show password"
+                >
+                  Show
+                </button>
+              </div>
+              <p class="field-error" id="password-error"></p>
+            </div>
+
+            <!-- Remember me -->
+            <div class="form-group remember-row">
+              <label class="checkbox-label">
+                <input type="checkbox" id="remember-me" />
+                <span class="checkbox-custom"></span>
+                Remember me
+              </label>
+            </div>
+
+            <!-- Submit -->
+            <div class="form-group">
+              <button type="submit" class="btn-primary" id="login-button">
+                Log In
+              </button>
+            </div>
+
+            <!-- Fake error message (from JS) -->
+            <p class="form-error" id="form-error"></p>
+          </form>
+
+          <!-- Footer links under the card content -->
+          <div class="card-footer-links">
+            <a href="#" class="link small-link">Use Custom Domain</a>
+            <span class="divider">|</span>
+            <a href="#" class="link small-link">Log In with SSO</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom legal/footer -->
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <div class="footer-links">
+          <a href="#" class="footer-link">Privacy</a>
+          <a href="#" class="footer-link">Security</a>
+          <a href="#" class="footer-link">Terms of Service</a>
+          <a href="#" class="footer-link">Cookies</a>
+        </div>
+        <p class="footer-copy">
+          © 2026 Salesforce, Inc. All rights reserved. Various trademarks held by their respective owners.
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
