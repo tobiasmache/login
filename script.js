@@ -1,100 +1,123 @@
+// Simple front-end behavior: password toggle, basic validation, and fake submit
+
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("loginForm");
+  const loginForm = document.getElementById("loginForm");
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
-  const formError = document.getElementById("formError");
-  const signInBtn = document.getElementById("signInBtn");
+  const formMessage = document.getElementById("formMessage");
   const passwordToggle = document.querySelector(".password-toggle");
+  const yearSpan = document.getElementById("year");
+  const ssoButton = document.getElementById("ssoButton");
 
-  function setFieldError(input, message) {
-    const key = input.getAttribute("id");
-    const errorEl = document.querySelector(`[data-error-for="${key}"]`);
+  // Set current year in footer
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
 
+  // Password show/hide toggle
+  if (passwordToggle && passwordInput) {
+    passwordToggle.addEventListener("click", () => {
+      const isHidden = passwordInput.type === "password";
+      passwordInput.type = isHidden ? "text" : "password";
+
+      const showText = passwordToggle.querySelector(".toggle-text.show");
+      const hideText = passwordToggle.querySelector(".toggle-text.hide");
+
+      if (isHidden) {
+        passwordToggle.setAttribute("aria-label", "Hide password");
+        if (showText) showText.style.display = "none";
+        if (hideText) hideText.style.display = "inline";
+      } else {
+        passwordToggle.setAttribute("aria-label", "Show password");
+        if (showText) showText.style.display = "inline";
+        if (hideText) hideText.style.display = "none";
+      }
+    });
+  }
+
+  // Utility: show field error
+  function setFieldError(inputEl, message) {
+    const fieldName = inputEl.getAttribute("name");
+    const errorEl = document.querySelector(
+      `.field-error[data-error-for="${fieldName}"]`
+    );
     if (message) {
-      input.classList.add("error");
+      inputEl.classList.add("error");
       if (errorEl) errorEl.textContent = message;
     } else {
-      input.classList.remove("error");
+      inputEl.classList.remove("error");
       if (errorEl) errorEl.textContent = "";
     }
   }
 
-  function isValidEmail(value) {
-    const re = /^[^s@]+@[^s@]+.[^s@]+$/;
-    return re.test(String(value).toLowerCase());
-  }
+  // Basic validation
+  function validateForm() {
+    let isValid = true;
 
-  if (passwordToggle) {
-    passwordToggle.addEventListener("click", () => {
-      const isPassword = passwordInput.type === "password";
-      passwordInput.type = isPassword ? "text" : "password";
-      passwordToggle.textContent = isPassword ? "Hide" : "Show";
-    });
-  }
-
-  emailInput.addEventListener("blur", () => {
-    const value = emailInput.value.trim();
-    if (!value) {
-      setFieldError(emailInput, "Email is required.");
-    } else if (!isValidEmail(value)) {
-      setFieldError(emailInput, "Enter a valid email address.");
-    } else {
-      setFieldError(emailInput, "");
-    }
-  });
-
-  passwordInput.addEventListener("blur", () => {
-    const value = passwordInput.value.trim();
-    if (!value) {
-      setFieldError(passwordInput, "Password is required.");
-    } else if (value.length < 6) {
-      setFieldError(passwordInput, "Password must be at least 6 characters.");
-    } else {
-      setFieldError(passwordInput, "");
-    }
-  });
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    formError.textContent = "";
-
+    // Email
     const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
-
-    let hasError = false;
-
     if (!email) {
       setFieldError(emailInput, "Email is required.");
-      hasError = true;
-    } else if (!isValidEmail(email)) {
+      isValid = false;
+    } else if (!/^S+@S+.S+$/.test(email)) {
       setFieldError(emailInput, "Enter a valid email address.");
-      hasError = true;
+      isValid = false;
     } else {
       setFieldError(emailInput, "");
     }
 
+    // Password
+    const password = passwordInput.value;
     if (!password) {
       setFieldError(passwordInput, "Password is required.");
-      hasError = true;
-    } else if (password.length < 6) {
-      setFieldError(passwordInput, "Password must be at least 6 characters.");
-      hasError = true;
+      isValid = false;
+    } else if (password.length < 8) {
+      setFieldError(passwordInput, "Password must be at least 8 characters.");
+      isValid = false;
     } else {
       setFieldError(passwordInput, "");
     }
 
-    if (hasError) return;
+    return isValid;
+  }
 
-    signInBtn.disabled = true;
-    signInBtn.textContent = "Signing in...";
+  // Email / password login handler
+  loginForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    formMessage.textContent = "";
+    formMessage.classList.remove("error");
 
-    // Mock async call
+    const isValid = validateForm();
+    if (!isValid) return;
+
+    // Simulate async login
+    const submitButton = loginForm.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = "Signing in…";
+
     setTimeout(() => {
-      formError.textContent =
-        "We couldn’t sign you in with those details. Please check your email and password and try again.";
+      submitButton.disabled = false;
+      submitButton.textContent = originalText;
 
-      signInBtn.disabled = false;
-      signInBtn.textContent = "Sign in";
-    }, 1000);
+      // Example: always "fail" to show error message
+      formMessage.textContent =
+        "These credentials don’t match our records. Please try again or use SSO.";
+      formMessage.classList.add("error");
+    }, 900);
   });
+
+  // SSO button handler – stub/redirection point
+  if (ssoButton) {
+    ssoButton.addEventListener("click", () => {
+      formMessage.classList.remove("error");
+      formMessage.textContent = "Redirecting to your organization's SSO…";
+
+      // Replace this with a real SSO redirect (e.g. window.location = '...';)
+      setTimeout(() => {
+        formMessage.textContent =
+          "SSO endpoint not configured in this demo project.";
+      }, 1200);
+    });
+  }
 });
