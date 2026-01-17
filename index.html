@@ -2,144 +2,144 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Celonis Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workspace Login</title>
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="https://www.celonis.com/favicon.ico">
+  <link rel="icon" href="favicon.ico" />
 </head>
 <body>
   <div class="page-wrapper">
-    <!-- Left side: marketing / brand panel -->
-    <section class="panel panel-left">
+    <!-- Left brand / hero section -->
+    <aside class="brand-panel">
       <header class="brand-header">
-        <a href="#" class="brand-logo">
-          <!-- Simple SVG-like placeholder logo; replace with official asset if you have it -->
+        <div class="brand-logo">
+          <!-- Replace with your own SVG or <img> -->
           <span class="logo-mark">C</span>
-          <span class="logo-text">Celonis</span>
-        </a>
+          <span class="logo-text">FlowSpace</span>
+        </div>
       </header>
 
-      <main class="left-content">
-        <h1 class="headline">
-          Sign in to your
-          <span class="highlight">Execution Management System</span>
-        </h1>
-        <p class="subheadline">
-          Connect your processes, data, and people with Celonis.
+      <main class="brand-content">
+        <h1 class="brand-title">Welcome to your process workspace</h1>
+        <p class="brand-subtitle">
+          Sign in to analyze, collaborate, and optimize your business
+          processes in one place.
         </p>
-
-        <ul class="benefits-list">
-          <li>Single sign‑on with your company credentials</li>
-          <li>Secure access to workspaces, apps, and data</li>
-          <li>Central governance across your organization</li>
+        <ul class="brand-highlights">
+          <li>Connect data across systems</li>
+          <li>Monitor live performance</li>
+          <li>Automate decisions at scale</li>
         </ul>
-
-        <div class="left-footer">
-          <p>Need an account?
-            <a href="#" class="link">Request access</a>
-          </p>
-        </div>
       </main>
 
-      <div class="background-accent"></div>
-    </section>
+      <footer class="brand-footer">
+        <p>Need an account? <a href="#">Request access</a></p>
+      </footer>
+    </aside>
 
-    <!-- Right side: login form -->
-    <section class="panel panel-right">
-      <div class="form-container">
-        <header class="form-header">
-          <h2>Log in</h2>
-          <p>Use your email and password or sign in with SSO.</p>
+    <!-- Right login section -->
+    <main class="auth-panel" aria-labelledby="login-title">
+      <section class="auth-card">
+        <header class="auth-header">
+          <h2 id="login-title">Sign in</h2>
+          <p class="auth-description">
+            Use your company credentials to access your workspace.
+          </p>
         </header>
 
-        <form id="loginForm" class="login-form" novalidate>
-          <!-- Email -->
-          <div class="form-group">
+        <!-- Social / SSO buttons -->
+        <div class="sso-section">
+          <button class="btn btn-outline full-width" type="button">
+            <span class="btn-icon sso-icon sso-icon-saml"></span>
+            Continue with SSO
+          </button>
+          <button class="btn btn-outline full-width" type="button">
+            <span class="btn-icon sso-icon sso-icon-microsoft"></span>
+            Continue with Microsoft
+          </button>
+        </div>
+
+        <div class="divider">
+          <span>or sign in with email</span>
+        </div>
+
+        <!-- Login form -->
+        <form id="login-form" novalidate>
+          <div class="form-field">
             <label for="email">Work email</label>
             <input
               type="email"
               id="email"
               name="email"
-              placeholder="name@company.com"
-              autocomplete="username"
+              autocomplete="email"
               required
+              placeholder="you@company.com"
             />
             <p class="field-error" data-error-for="email"></p>
           </div>
 
-          <!-- Password -->
-          <div class="form-group">
-            <label for="password">Password</label>
+          <div class="form-field">
+            <div class="label-row">
+              <label for="password">Password</label>
+              <a href="#" class="link-small">Forgot password?</a>
+            </div>
             <div class="password-wrapper">
               <input
                 type="password"
                 id="password"
                 name="password"
-                placeholder="Enter your password"
                 autocomplete="current-password"
                 required
                 minlength="8"
+                placeholder="Enter your password"
               />
               <button
                 type="button"
                 class="password-toggle"
                 aria-label="Show password"
               >
-                <span class="toggle-text show">Show</span>
-                <span class="toggle-text hide">Hide</span>
+                <span class="toggle-icon" aria-hidden="true"></span>
               </button>
             </div>
             <p class="field-error" data-error-for="password"></p>
           </div>
 
-          <!-- Remember me & Forgot password -->
-          <div class="form-row">
+          <div class="form-field form-field-inline">
             <label class="checkbox">
               <input type="checkbox" id="remember" name="remember" />
-              <span class="checkbox-mark"></span>
-              <span>Remember me</span>
+              <span class="checkbox-box"></span>
+              <span>Keep me signed in</span>
             </label>
-
-            <a href="#" class="link small-link">Forgot password?</a>
           </div>
 
-          <!-- Main login button -->
-          <button type="submit" class="btn btn-primary">
-            Continue
+          <button
+            type="submit"
+            class="btn btn-primary full-width"
+            id="login-submit"
+          >
+            Sign in
           </button>
 
-          <!-- Divider -->
-          <div class="divider">
-            <span>or</span>
-          </div>
+          <p class="form-meta">
+            By signing in you agree to the
+            <a href="#">Terms of Use</a> and
+            <a href="#">Privacy Policy</a>.
+          </p>
 
-          <!-- SSO button(s) -->
-          <button type="button" class="btn btn-secondary btn-sso" id="ssoButton">
-            Continue with SSO
-          </button>
-
-          <div class="form-footer-text">
-            <p>
-              By continuing, you agree to the
-              <a href="#" class="link">Terms of Use</a> and
-              <a href="#" class="link">Privacy Policy</a>.
-            </p>
-          </div>
-
-          <!-- Global form message -->
-          <p class="form-message" id="formMessage" aria-live="polite"></p>
+          <p class="form-error-global" id="form-error-global"></p>
         </form>
+      </section>
 
-        <footer class="page-footer">
-          <p>© <span id="year"></span> Celonis SE. All rights reserved.</p>
-          <nav class="footer-links">
-            <a href="#" class="link small-link">Privacy</a>
-            <a href="#" class="link small-link">Terms</a>
-            <a href="#" class="link small-link">Support</a>
-          </nav>
-        </footer>
-      </div>
-    </section>
+      <footer class="auth-footer">
+        <p>© <span id="year"></span> FlowSpace Technologies</p>
+        <nav class="footer-links" aria-label="Legal">
+          <a href="#">Imprint</a>
+          <a href="#">Privacy</a>
+          <a href="#">Security</a>
+          <a href="#">Status</a>
+        </nav>
+      </footer>
+    </main>
   </div>
 
   <script src="script.js"></script>
