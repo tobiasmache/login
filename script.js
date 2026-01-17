@@ -1,68 +1,60 @@
-// Simple behavior for the Celonis-like welcome / login page
+// Simple client-side behaviour for the Celonis-style login page
 
-// 1. Footer year
-(function setYear() {
-  var yearEl = document.getElementById("year");
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
-  }
-})();
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("loginForm");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const passwordToggle = document.querySelector(".password-toggle");
 
-// 2. Password visibility toggle
-(function initPasswordToggle() {
-  var passwordInput = document.getElementById("password");
-  var toggleBtn = document.querySelector(".c-password-toggle");
-
-  if (!passwordInput || !toggleBtn) return;
-
-  toggleBtn.addEventListener("click", function () {
-    var isPassword = passwordInput.type === "password";
-    passwordInput.type = isPassword ? "text" : "password";
-    toggleBtn.classList.toggle("c-password-toggle--active", isPassword);
-  });
-})();
-
-// 3. Minimal client-side validation (purely for UX; does *not* authenticate)
-(function initFormValidation() {
-  var form = document.getElementById("loginForm");
-  if (!form) return;
-
-  var emailInput = form.querySelector("#email");
-  var passwordInput = form.querySelector("#password");
-  var globalError = document.getElementById("formError");
-
-  function setFieldError(name, message) {
-    var el = form.querySelector('[data-error-for="' + name + '"]');
+  function setFieldError(fieldName, message) {
+    const el = document.querySelector(`.field-error[data-for="${fieldName}"]`);
     if (el) el.textContent = message || "";
   }
 
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
+  function validateEmail(value) {
+    if (!value) return "Email is required.";
+    const emailRegex = /^[^s@]+@[^s@]+.[^s@]+$/;
+    if (!emailRegex.test(value)) return "Enter a valid email address.";
+    return "";
+  }
 
-    if (globalError) globalError.textContent = "";
-    setFieldError("email", "");
-    setFieldError("password", "");
+  function validatePassword(value) {
+    if (!value) return "Password is required.";
+    if (value.length < 8) return "Password must be at least 8 characters.";
+    return "";
+  }
 
-    var email = emailInput ? emailInput.value.trim() : "";
-    var password = passwordInput ? passwordInput.value : "";
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-    var hasError = false;
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
 
-    if (!email) {
-      setFieldError("email", "Please enter your email.");
-      hasError = true;
-    }
+    const emailError = validateEmail(email);
+    const passwordError = validatePassword(password);
 
-    if (!password) {
-      setFieldError("password", "Please enter your password.");
-      hasError = true;
-    }
+    setFieldError("email", emailError);
+    setFieldError("password", passwordError);
 
-    if (hasError) return;
+    if (emailError || passwordError) return;
 
-    if (globalError) {
-      globalError.textContent =
-        "This is a static clone. Connect this form to your Celonis authentication backend.";
-    }
+    // Replace this simulated behaviour with your real login API call
+    form.classList.add("is-submitting");
+
+    setTimeout(() => {
+      form.classList.remove("is-submitting");
+      alert("Sign-in request would be sent to your backend here.");
+    }, 600);
   });
-})();
+
+  if (passwordToggle && passwordInput) {
+    passwordToggle.addEventListener("click", () => {
+      const isPassword = passwordInput.type === "password";
+      passwordInput.type = isPassword ? "text" : "password";
+      passwordToggle.setAttribute(
+        "aria-label",
+        isPassword ? "Hide password" : "Show password"
+      );
+    });
+  }
+});
