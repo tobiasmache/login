@@ -1,1 +1,141 @@
-whatup
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Celonis Style</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="data:image/svg+xml,
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+      <circle cx='50' cy='50' r='48' fill='%2300365E'/>
+      <text x='50' y='57' font-size='32' text-anchor='middle' fill='white' font-family='Arial'>C</text>
+    </svg>"
+  />
+</head>
+<body>
+  <div class="page">
+    <!-- Main login content -->
+    <main class="auth-wrapper">
+      <header class="auth-header">
+        <div class="logo-wrap">
+          <!-- Replace with a real logo image if you want -->
+          <!-- <img src="logo.svg" alt="Celonis" class="logo-img" /> -->
+          <div class="logo-circle">C</div>
+          <span class="logo-text">Celonis</span>
+        </div>
+        <h1 class="auth-title">Sign in</h1>
+        <p class="auth-subtitle">
+          Sign in with your work email to access the Celonis platform.
+        </p>
+      </header>
+
+      <section class="auth-card">
+        <form id="loginForm" novalidate>
+          <!-- Email field -->
+          <div class="field">
+            <label for="email">Work email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              autocomplete="email"
+              required
+              placeholder="name@company.com"
+            />
+            <p class="field-error" data-error-for="email"></p>
+          </div>
+
+          <!-- Password field -->
+          <div class="field">
+            <div class="field-label-row">
+              <label for="password">Password</label>
+              <a href="#" class="link-small">Forgot password?</a>
+            </div>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                autocomplete="current-password"
+                required
+                minlength="6"
+                placeholder="Enter your password"
+              />
+              <button
+                type="button"
+                class="password-toggle"
+                aria-label="Toggle password visibility"
+              >
+                Show
+              </button>
+            </div>
+            <p class="field-error" data-error-for="password"></p>
+          </div>
+
+          <!-- Remember me -->
+          <div class="field-row">
+            <label class="checkbox">
+              <input type="checkbox" id="rememberMe" name="rememberMe" />
+              <span class="checkbox-custom"></span>
+              <span>Remember me</span>
+            </label>
+          </div>
+
+          <!-- Global error -->
+          <div id="formError" class="form-error" aria-live="polite"></div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn-primary" id="signInBtn">
+            Sign in
+          </button>
+
+          <!-- Divider -->
+          <div class="divider">
+            <span>or</span>
+          </div>
+
+          <!-- SSO button -->
+          <button type="button" class="btn-secondary btn-sso">
+            Sign in with Single Sign-On
+          </button>
+        </form>
+
+        <div class="auth-hint">
+          Don’t have access yet?
+          <a href="#" class="link">Request access</a>
+        </div>
+      </section>
+
+      <footer class="auth-footer">
+        <a href="#" class="footer-link">Privacy Policy</a>
+        <span class="footer-separator">•</span>
+        <a href="#" class="footer-link">Terms of Use</a>
+        <span class="footer-separator">•</span>
+        <a href="#" class="footer-link">Support</a>
+      </footer>
+    </main>
+
+    <!-- Right side / marketing panel -->
+    <aside class="side-panel">
+      <div class="side-panel-inner">
+        <h2>Turn processes into results</h2>
+        <p>
+          Discover how Celonis leverages process mining and execution
+          management to help you find and fix inefficiencies across your
+          business.
+        </p>
+        <ul class="side-list">
+          <li>Uncover process bottlenecks in real time</li>
+          <li>Automate manual work and reduce costs</li>
+          <li>Drive measurable impact across your operations</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
