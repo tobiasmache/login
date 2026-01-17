@@ -1,12 +1,21 @@
-/*
-  NOTE ABOUT ACCURACY
-  ====================
-  I cannot live-load the actual Celonis login, so this uses:
-    - A close match of Celonis green
-    - A clean sans-serif similar to the real font
-  For an exact match, open the real Celonis login page, inspect with DevTools,
-  and replace the color values & font-family below with the real ones.
-*/
+:root {
+  --color-bg: #f5f7fb;
+  --color-surface: #ffffff;
+  --color-border: #e0e4ee;
+  --color-text: #101326;
+  --color-text-muted: #6b7280;
+  --color-primary: #00e3a5; /* Celonis green (approx) */
+  --color-primary-hover: #00c790;
+  --color-link: #0052cc;
+  --color-error: #d93025;
+  --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.15);
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-full: 999px;
+  --transition-fast: 0.18s ease-out;
+  --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
 
 *,
 *::before,
@@ -22,278 +31,198 @@ body {
 }
 
 body {
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
-  color: #09101f; /* close to a dark navy/ink Celonis-like text */
-  background-color: #f5f7fb;
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
 }
 
-.background {
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(circle at 0% 0%, rgba(140, 255, 0, 0.20) 0, transparent 50%),
-    radial-gradient(circle at 100% 100%, rgba(0, 224, 160, 0.2) 0, transparent 55%),
-    #f5f7fb;
-  z-index: -1;
-}
-
-.page {
+.page-wrapper {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 4fr);
   min-height: 100vh;
+}
+
+/* Brand panel (left) */
+
+.brand-panel {
+  background: radial-gradient(circle at top left, #00e3a5 0, #001b3f 55%, #00010f 100%);
+  color: #f9fafb;
+  padding: 32px 40px 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 24px;
 }
 
-.login-card {
+.brand-logo {
+  height: 32px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.45));
+}
+
+.brand-content {
+  margin-top: auto;
+  margin-bottom: auto;
+  max-width: 420px;
+}
+
+.brand-content h1 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin: 0 0 12px;
+  letter-spacing: -0.02em;
+}
+
+.brand-content p {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: rgba(241, 245, 249, 0.9);
+}
+
+.brand-footer {
+  margin-top: auto;
+  font-size: 0.8rem;
+  color: rgba(241, 245, 249, 0.7);
+}
+
+/* Auth panel (right) */
+
+.auth-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 24px;
+}
+
+.auth-container {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 32px 32px 28px;
   width: 100%;
   max-width: 420px;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow:
-    0 18px 45px rgba(6, 17, 54, 0.16),
-    0 0 0 1px rgba(9, 16, 31, 0.04);
-  padding: 32px 32px 24px;
+  border: 1px solid var(--color-border);
 }
 
-/* Logo */
-
-.logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.logo-mark {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #8cff00; /* approximate Celonis neon green */
-}
-
-.logo-wordmark {
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: 0.025em;
-  text-transform: lowercase;
-  color: #020617;
-}
-
-.login-title {
-  margin: 0 0 4px;
-  font-size: 24px;
-  font-weight: 600;
+.auth-header h2 {
+  margin: 0 0 8px;
+  font-size: 1.7rem;
   letter-spacing: -0.01em;
 }
 
-.login-subtitle {
+.auth-subtitle {
   margin: 0 0 24px;
-  font-size: 14px;
-  color: #4b5563;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
 }
 
 /* Form */
 
-.login-form {
+.auth-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
-.field {
+.form-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
 }
 
-.field label {
-  font-size: 13px;
+label {
+  font-size: 0.9rem;
   font-weight: 500;
-  color: #111827;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+  margin-bottom: 6px;
 }
 
 input[type="email"],
 input[type="password"] {
-  width: 100%;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  padding: 9px 12px;
-  font-size: 14px;
-  background-color: #ffffff;
-  color: #111827;
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease,
-    background-color 0.15s ease;
+  background: #f9fafb;
+  transition: border-color var(--transition-fast),
+    box-shadow var(--transition-fast), background-color var(--transition-fast);
 }
 
-input::placeholder {
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: var(--color-primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 1px rgba(0, 227, 165, 0.35);
+}
+
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
   color: #9ca3af;
 }
 
-input:focus {
-  border-color: #00de7a; /* accent */
-  box-shadow: 0 0 0 1px rgba(0, 222, 122, 0.35);
-}
+/* Password with toggle */
 
-input:invalid:focus {
-  border-color: #dc2626;
-  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.25);
-}
-
-.password-shell {
-  position: relative;
+.password-wrapper {
   display: flex;
   align-items: center;
+  gap: 6px;
 }
 
-.password-shell input {
-  padding-right: 40px;
+.password-wrapper input {
+  flex: 1;
 }
 
 .password-toggle {
-  position: absolute;
-  right: 8px;
   border: none;
   background: transparent;
-  padding: 6px;
-  border-radius: 999px;
+  color: var(--color-link);
+  font-size: 0.8rem;
+  font-weight: 500;
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  padding: 4px 6px;
+  border-radius: var(--radius-full);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 .password-toggle:hover {
-  background: rgba(15, 23, 42, 0.05);
+  background: rgba(37, 99, 235, 0.08);
 }
 
-.password-toggle-icon {
-  position: relative;
-  width: 18px;
-  height: 10px;
-  border-radius: 999px;
-  border: 1.4px solid #6b7280;
+/* Remember / forgot */
+
+.form-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -4px;
 }
 
-.password-toggle-icon::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 3px;
-  height: 3px;
-  border-radius: 999px;
-  background: #6b7280;
-  transform: translate(-50%, -50%);
-}
-
-.field-error {
-  min-height: 16px;
-  font-size: 12px;
-  color: #b91c1c;
-}
-
-/* Buttons */
-
-.btn {
+.checkbox {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  border-radius: 999px;
-  border: none;
-  padding: 9px 16px;
-  font-size: 14px;
-  font-weight: 500;
+  gap: 6px;
+  font-size: 0.86rem;
+  color: var(--color-text-muted);
   cursor: pointer;
-  transition: background-color 0.15s ease, box-shadow 0.15s ease,
-    color 0.15s ease, transform 0.05s ease;
 }
 
-.btn-primary {
-  background: linear-gradient(135deg, #00ff88, #00de7a);
-  color: #02130c;
-  box-shadow: 0 8px 18px rgba(0, 222, 122, 0.32);
-}
-
-.btn-primary:hover {
-  background: linear-gradient(135deg, #00f07f, #00cf72);
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(0, 222, 122, 0.36);
-}
-
-.btn-primary:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(0, 222, 122, 0.28);
-}
-
-.btn-secondary {
-  background: #ffffff;
-  color: #111827;
-  border: 1px solid #d1d5db;
-}
-
-.btn-secondary:hover {
-  background: #f9fafb;
-}
-
-.divider {
-  margin: 4px 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.divider::before,
-.divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: #e5e7eb;
-}
-
-/* Links & footer */
-
-.link-inline {
-  font-size: 12px;
-  font-weight: 500;
-  color: #00de7a;
-  text-decoration: none;
-}
-
-.link-inline:hover {
-  text-decoration: underline;
-}
-
-.login-footer {
-  margin-top: 20px;
-  border-top: 1px solid #f3f4f6;
-  padding-top: 12px;
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.login-footer-text {
-  margin: 0 0 4px;
-}
-
-.login-footer-meta {
+.checkbox input[type="checkbox"] {
   margin: 0;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid var(--color-border);
 }
 
 .link-muted {
-  color: #6b7280;
+  font-size: 0.85rem;
+  color: var(--color-link);
   text-decoration: none;
 }
 
@@ -301,21 +230,98 @@ input:invalid:focus {
   text-decoration: underline;
 }
 
-.dot {
-  color: #d1d5db;
+/* Button */
+
+.btn-primary {
+  margin-top: 6px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.96rem;
+  background: var(--color-primary);
+  color: #003023;
+  box-shadow: 0 12px 30px rgba(0, 227, 165, 0.35);
+  transition: background-color var(--transition-fast),
+    box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+  box-shadow: 0 16px 40px rgba(0, 199, 144, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(0, 199, 144, 0.35);
+}
+
+/* Form footer */
+
+.form-footer-text {
+  margin: 10px 0 0;
+  font-size: 0.86rem;
+  color: var(--color-text-muted);
+}
+
+.form-footer-text .link-primary {
+  color: var(--color-link);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.form-footer-text .link-primary:hover {
+  text-decoration: underline;
+}
+
+.fine-print {
+  font-size: 0.78rem;
+  margin-top: 6px;
+}
+
+/* Error messages */
+
+.field-error {
+  min-height: 16px;
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: var(--color-error);
+}
+
+/* Responsive */
+
+@media (max-width: 960px) {
+  .page-wrapper {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .brand-panel {
+    display: none;
+  }
+
+  .auth-panel {
+    padding: 24px 16px;
+  }
+
+  .auth-container {
+    border-radius: 16px;
+    max-width: 460px;
+  }
 }
 
 @media (max-width: 480px) {
-  .login-card {
-    padding: 24px 20px 18px;
-    border-radius: 14px;
+  .auth-container {
+    padding: 24px 18px 22px;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    background: transparent;
   }
 
-  .logo {
-    margin-bottom: 18px;
-  }
-
-  .login-title {
-    font-size: 22px;
+  body {
+    background: var(--color-surface);
   }
 }
