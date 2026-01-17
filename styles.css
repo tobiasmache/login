@@ -1,38 +1,12 @@
 /*
-  NOTE:
-  I cannot read the live styles from https://my.celonis.com/en/welcome.
-  To make this pixel-perfect and "exact", open DevTools on that page and
-  paste the real values into the design tokens below and tweak any layout
-  differences.
+  NOTE ABOUT ACCURACY
+  ====================
+  I cannot live-load the actual Celonis login, so this uses:
+    - A close match of Celonis green
+    - A clean sans-serif similar to the real font
+  For an exact match, open the real Celonis login page, inspect with DevTools,
+  and replace the color values & font-family below with the real ones.
 */
-
-:root {
-  /* Replace all of these with real tokens from the Celonis welcome page */
-  --c-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-
-  --c-color-page-bg: #f5f6fa;      /* body background */
-  --c-color-card-bg: #ffffff;      /* login card bg */
-  --c-color-visual-bg: #020617;    /* right panel base bg */
-
-  --c-color-text-main: #111827;
-  --c-color-text-subtle: #6b7280;
-  --c-color-text-invert: #f9fafb;
-
-  --c-color-primary: #001bff;      /* primary brand / button */
-  --c-color-primary-hover: #0013d1;
-  --c-color-border: #d1d5db;
-  --c-color-input-bg: #ffffff;
-  --c-color-error: #dc2626;
-
-  --c-radius-sm: 4px;
-  --c-radius-md: 8px;
-  --c-radius-lg: 16px;
-
-  --c-shadow-soft: 0 20px 40px rgba(15, 23, 42, 0.16);
-
-  --c-transition-fast: 150ms ease-out;
-  --c-transition-med: 200ms ease-out;
-}
 
 *,
 *::before,
@@ -48,430 +22,300 @@ body {
 }
 
 body {
-  font-family: var(--c-font-family);
-  background-color: var(--c-color-page-bg);
-  color: var(--c-color-text-main);
-  -webkit-font-smoothing: antialiased;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  color: #09101f; /* close to a dark navy/ink Celonis-like text */
+  background-color: #f5f7fb;
 }
 
-img {
-  max-width: 100%;
-  display: block;
+.background {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(140, 255, 0, 0.20) 0, transparent 50%),
+    radial-gradient(circle at 100% 100%, rgba(0, 224, 160, 0.2) 0, transparent 55%),
+    #f5f7fb;
+  z-index: -1;
 }
 
-button,
-input {
-  font-family: inherit;
-}
-
-.c-page {
+.page {
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
-  background-color: var(--c-color-page-bg);
-}
-
-/* MAIN (LEFT / CENTER) */
-
-.c-page__main {
-  display: flex;
-  flex-direction: column;
-  padding: 32px 48px;
-}
-
-.c-header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 32px;
+  justify-content: center;
+  padding: 24px;
 }
 
-.c-header__logo {
-  height: 28px; /* adjust to match live logo */
-  width: auto;
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow:
+    0 18px 45px rgba(6, 17, 54, 0.16),
+    0 0 0 1px rgba(9, 16, 31, 0.04);
+  padding: 32px 32px 24px;
 }
 
-.c-auth {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  max-width: 480px;
+/* Logo */
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
 }
 
-.c-auth__card {
-  background-color: var(--c-color-card-bg);
-  border-radius: var(--c-radius-lg);
-  box-shadow: var(--c-shadow-soft);
-  padding: 32px 32px 28px;
+.logo-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #8cff00; /* approximate Celonis neon green */
 }
 
-.c-auth__card-inner {
-  max-width: 360px;
-}
-
-.c-auth__title {
-  margin: 0 0 8px;
-  font-size: 28px;
-  line-height: 1.2;
+.logo-wordmark {
+  font-size: 22px;
   font-weight: 600;
+  letter-spacing: 0.025em;
+  text-transform: lowercase;
+  color: #020617;
 }
 
-.c-auth__subtitle {
+.login-title {
+  margin: 0 0 4px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.login-subtitle {
   margin: 0 0 24px;
   font-size: 14px;
-  color: var(--c-color-text-subtle);
+  color: #4b5563;
 }
 
-/* FORM */
+/* Form */
 
-.c-form {
-  margin: 0;
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.c-form__group {
-  margin-bottom: 16px;
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.c-form__label {
-  display: block;
-  margin-bottom: 6px;
+.field label {
   font-size: 13px;
   font-weight: 500;
+  color: #111827;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }
 
-.c-form__input-wrapper {
-  position: relative;
-}
-
-.c-form__input {
+input[type="email"],
+input[type="password"] {
   width: 100%;
-  border-radius: var(--c-radius-md);
-  border: 1px solid var(--c-color-border);
-  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  padding: 9px 12px;
   font-size: 14px;
+  background-color: #ffffff;
+  color: #111827;
   outline: none;
-  background-color: var(--c-color-input-bg);
-  transition: border-color var(--c-transition-fast),
-    box-shadow var(--c-transition-fast),
-    background-color var(--c-transition-fast);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    background-color 0.15s ease;
 }
 
-.c-form__input:focus {
-  border-color: var(--c-color-primary);
-  box-shadow: 0 0 0 1px rgba(0, 27, 255, 0.15);
-}
-
-.c-form__input::placeholder {
+input::placeholder {
   color: #9ca3af;
 }
 
-/* Password toggle */
+input:focus {
+  border-color: #00de7a; /* accent */
+  box-shadow: 0 0 0 1px rgba(0, 222, 122, 0.35);
+}
 
-.c-password-toggle {
+input:invalid:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.25);
+}
+
+.password-shell {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-shell input {
+  padding-right: 40px;
+}
+
+.password-toggle {
   position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 8px;
   border: none;
   background: transparent;
-  padding: 0;
-  display: flex;
+  padding: 6px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
 }
 
-.c-password-toggle__icon {
+.password-toggle:hover {
+  background: rgba(15, 23, 42, 0.05);
+}
+
+.password-toggle-icon {
+  position: relative;
   width: 18px;
-  height: 18px;
-  fill: #9ca3af;
-  transition: fill var(--c-transition-fast);
+  height: 10px;
+  border-radius: 999px;
+  border: 1.4px solid #6b7280;
 }
 
-.c-password-toggle--active .c-password-toggle__icon {
-  fill: var(--c-color-primary);
-}
-
-.c-form__error {
-  min-height: 16px;
-  margin: 4px 0 0;
-  font-size: 12px;
-  color: var(--c-color-error);
-}
-
-.c-form__global-error {
-  margin-top: 12px;
-  font-size: 13px;
-  color: var(--c-color-error);
-}
-
-.c-form__row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.c-form__row--between {
-  justify-content: space-between;
-}
-
-/* Checkbox */
-
-.c-checkbox {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.c-checkbox__input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.c-checkbox__box {
-  width: 14px;
-  height: 14px;
-  border-radius: 3px;
-  border: 1px solid var(--c-color-border);
-  background-color: #ffffff;
-  display: inline-block;
-  position: relative;
-  transition: border-color var(--c-transition-fast),
-    background-color var(--c-transition-fast),
-    box-shadow var(--c-transition-fast);
-}
-
-.c-checkbox__box::after {
+.password-toggle-icon::before {
   content: "";
   position: absolute;
-  inset: 1px 4px 3px 3px;
-  border: solid #ffffff;
-  border-width: 0 0 2px 2px;
-  transform: rotate(-45deg);
-  opacity: 0;
+  left: 50%;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: #6b7280;
+  transform: translate(-50%, -50%);
 }
 
-.c-checkbox__input:checked + .c-checkbox__box {
-  border-color: var(--c-color-primary);
-  background-color: var(--c-color-primary);
-  box-shadow: 0 0 0 1px rgba(0, 27, 255, 0.15);
+.field-error {
+  min-height: 16px;
+  font-size: 12px;
+  color: #b91c1c;
 }
 
-.c-checkbox__input:checked + .c-checkbox__box::after {
-  opacity: 1;
-}
+/* Buttons */
 
-.c-checkbox__label {
-  color: var(--c-color-text-main);
-}
-
-/* Links & buttons */
-
-.c-link {
-  color: var(--c-color-primary);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color var(--c-transition-fast);
-}
-
-.c-link:hover {
-  color: var(--c-color-primary-hover);
-  text-decoration: underline;
-}
-
-.c-link--small {
-  font-size: 13px;
-}
-
-.c-btn {
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--c-radius-md);
+  width: 100%;
+  border-radius: 999px;
   border: none;
-  padding: 10px 16px;
+  padding: 9px 16px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
-  transition:
-    background-color var(--c-transition-med),
-    color var(--c-transition-med),
-    box-shadow var(--c-transition-med),
-    transform var(--c-transition-med),
-    border-color var(--c-transition-med);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease,
+    color 0.15s ease, transform 0.05s ease;
 }
 
-.c-btn--primary {
-  width: 100%;
-  background-color: var(--c-color-primary);
-  color: #ffffff;
-  box-shadow: var(--c-shadow-soft);
+.btn-primary {
+  background: linear-gradient(135deg, #00ff88, #00de7a);
+  color: #02130c;
+  box-shadow: 0 8px 18px rgba(0, 222, 122, 0.32);
 }
 
-.c-btn--primary:hover {
-  background-color: var(--c-color-primary-hover);
+.btn-primary:hover {
+  background: linear-gradient(135deg, #00f07f, #00cf72);
   transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0, 222, 122, 0.36);
 }
 
-.c-btn--primary:active {
+.btn-primary:active {
   transform: translateY(0);
-  box-shadow: none;
+  box-shadow: 0 4px 12px rgba(0, 222, 122, 0.28);
 }
 
-.c-btn--ghost {
-  margin-top: 12px;
-  width: 100%;
-  background-color: transparent;
-  color: var(--c-color-primary);
-  border: 1px solid var(--c-color-border);
+.btn-secondary {
+  background: #ffffff;
+  color: #111827;
+  border: 1px solid #d1d5db;
 }
 
-.c-btn--ghost:hover {
-  border-color: var(--c-color-primary);
+.btn-secondary:hover {
+  background: #f9fafb;
 }
 
-/* SSO / secondary section inside card */
-
-.c-auth__sso {
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px solid #e5e7eb;
-}
-
-.c-auth__sso-text {
-  margin: 0 0 8px;
-  font-size: 13px;
-  color: var(--c-color-text-subtle);
-}
-
-/* Footer */
-
-.c-footer {
-  margin-top: 32px;
-  font-size: 12px;
-  color: var(--c-color-text-subtle);
-}
-
-.c-footer__nav {
+.divider {
+  margin: 4px 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 4px;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #6b7280;
 }
 
-.c-footer__link {
-  color: inherit;
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+/* Links & footer */
+
+.link-inline {
+  font-size: 12px;
+  font-weight: 500;
+  color: #00de7a;
   text-decoration: none;
 }
 
-.c-footer__link:hover {
+.link-inline:hover {
   text-decoration: underline;
 }
 
-.c-footer__copy {
+.login-footer {
+  margin-top: 20px;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 12px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.login-footer-text {
+  margin: 0 0 4px;
+}
+
+.login-footer-meta {
   margin: 0;
-}
-
-/* RIGHT VISUAL PANEL */
-
-.c-page__visual {
-  position: relative;
-  overflow: hidden;
-  background-color: var(--c-color-visual-bg);
-}
-
-.c-visual {
-  position: relative;
-  height: 100%;
-  padding: 40px 48px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  color: var(--c-color-text-invert);
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
-/* TODO: Replace this gradient with the exact one from the live page */
-.c-visual::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at top left, rgba(56, 189, 248, 0.32), transparent 55%),
-    radial-gradient(circle at bottom right, rgba(129, 140, 248, 0.42), transparent 55%);
-  opacity: 0.9;
-  pointer-events: none;
+.link-muted {
+  color: #6b7280;
+  text-decoration: none;
 }
 
-.c-visual__content {
-  position: relative;
-  z-index: 1;
-  max-width: 420px;
+.link-muted:hover {
+  text-decoration: underline;
 }
 
-.c-visual__title {
-  margin: 0 0 12px;
-  font-size: 26px;
-  font-weight: 600;
-}
-
-.c-visual__text {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.6;
-  color: rgba(241, 245, 249, 0.9);
-}
-
-.c-visual__image-wrap {
-  position: relative;
-  z-index: 1;
-  max-width: 460px;
-  align-self: flex-end;
-}
-
-.c-visual__image {
-  width: 100%;
-  height: auto;
-}
-
-/* RESPONSIVE */
-
-@media (max-width: 1024px) {
-  .c-page {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  }
-}
-
-@media (max-width: 900px) {
-  .c-page {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .c-page__visual {
-    display: none; /* many enterprise login pages hide the visual on mobile */
-  }
-
-  .c-page__main {
-    padding: 24px 20px 24px;
-  }
-
-  .c-auth__card {
-    box-shadow: none; /* the real page may or may not keep the shadow */
-    border-radius: 0;
-    padding: 24px 20px 20px;
-  }
-
-  .c-auth__title {
-    font-size: 24px;
-  }
+.dot {
+  color: #d1d5db;
 }
 
 @media (max-width: 480px) {
-  .c-auth__title {
+  .login-card {
+    padding: 24px 20px 18px;
+    border-radius: 14px;
+  }
+
+  .logo {
+    margin-bottom: 18px;
+  }
+
+  .login-title {
     font-size: 22px;
   }
 }
