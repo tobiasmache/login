@@ -2,153 +2,107 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Celonis – Welcome</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Celonis – Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- TODO: Replace with the exact Celonis font includes from the live page -->
-  <!-- Example (adjust after inspecting my.celonis.com):
+  <!-- NOTE: This is a best-guess recreation. For an exact clone, replace font & colors
+       after inspecting the real Celonis login page in DevTools. -->
+
+  <!-- Modern sans-serif similar to what Celonis uses -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="c-page">
-    <!-- LEFT / CENTERED LOGIN AREA -->
-    <div class="c-page__main">
-      <header class="c-header">
-        <!-- TODO: Replace src with the exact Celonis logo asset and dimensions -->
-        <img
-          src="assets/celonis-logo.svg"
-          alt="Celonis"
-          class="c-header__logo"
-        />
+  <div class="background"></div>
+
+  <main class="page">
+    <section class="login-card" aria-label="Celonis login">
+      <header class="login-header">
+        <!--
+          LOGO
+          ======
+          For a perfect match, replace this block with the actual SVG/logo
+          markup from the real Celonis login page (obtained via DevTools).
+        -->
+        <div class="logo" aria-label="Celonis">
+          <div class="logo-mark" aria-hidden="true"></div>
+          <span class="logo-wordmark">celonis</span>
+        </div>
+
+        <h1 class="login-title">Sign in</h1>
+        <p class="login-subtitle">
+          Sign in with your work account to access Celonis.
+        </p>
       </header>
 
-      <main class="c-auth" role="main">
-        <section class="c-auth__card" aria-labelledby="welcome-title">
-          <div class="c-auth__card-inner">
-            <h1 id="welcome-title" class="c-auth__title">
-              Welcome to Celonis
-            </h1>
-            <p class="c-auth__subtitle">
-              Sign in with your work account to continue.
-            </p>
-
-            <form class="c-form" id="loginForm" novalidate>
-              <div class="c-form__group">
-                <label for="email" class="c-form__label">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  class="c-form__input"
-                  autocomplete="email"
-                  required
-                />
-                <p class="c-form__error" data-error-for="email"></p>
-              </div>
-
-              <div class="c-form__group">
-                <label for="password" class="c-form__label">Password</label>
-                <div class="c-form__input-wrapper">
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    class="c-form__input c-form__input--password"
-                    autocomplete="current-password"
-                    required
-                  />
-                  <button
-                    type="button"
-                    class="c-password-toggle"
-                    aria-label="Toggle password visibility"
-                  >
-                    <svg
-                      class="c-password-toggle__icon"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zm0 11.25A3.75 3.75 0 1 1 12 8.25a3.75 3.75 0 0 1 0 7.5z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <p class="c-form__error" data-error-for="password"></p>
-              </div>
-
-              <div class="c-form__row c-form__row--between">
-                <label class="c-checkbox">
-                  <input type="checkbox" class="c-checkbox__input" />
-                  <span class="c-checkbox__box"></span>
-                  <span class="c-checkbox__label">Keep me signed in</span>
-                </label>
-
-                <a href="#" class="c-link c-link--small">Forgot password?</a>
-              </div>
-
-              <button type="submit" class="c-btn c-btn--primary">
-                Sign in
-              </button>
-
-              <p class="c-form__global-error" id="formError" aria-live="polite"></p>
-            </form>
-
-            <div class="c-auth__sso">
-              <!-- Adjust this section to match the real SSO / alternative login area -->
-              <p class="c-auth__sso-text">
-                Or sign in with your organization's single sign-on.
-              </p>
-              <button class="c-btn c-btn--ghost" type="button">
-                Continue with SSO
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <footer class="c-footer">
-          <nav class="c-footer__nav" aria-label="Footer">
-            <!-- Replace with real links and texts from the live page -->
-            <a href="#" class="c-footer__link">Privacy Policy</a>
-            <a href="#" class="c-footer__link">Terms of Use</a>
-            <a href="#" class="c-footer__link">Support</a>
-          </nav>
-          <p class="c-footer__copy">
-            © <span id="year"></span> Celonis SE. All rights reserved.
-          </p>
-        </footer>
-      </main>
-    </div>
-
-    <!-- RIGHT VISUAL PANEL (as on the welcome page) -->
-    <aside class="c-page__visual" aria-hidden="true">
-      <div class="c-visual">
-        <!-- Background gradient / image is done via CSS -->
-        <div class="c-visual__content">
-          <h2 class="c-visual__title">
-            Unlock the full power of your processes.
-          </h2>
-          <p class="c-visual__text">
-            Discover, improve, and monitor your business processes in real time
-            with the Celonis Execution Management System.
-          </p>
-        </div>
-
-        <!-- TODO: Replace with the exact hero / illustration asset -->
-        <div class="c-visual__image-wrap">
-          <img
-            src="assets/celonis-welcome-hero.png"
-            alt=""
-            class="c-visual__image"
+      <form id="loginForm" class="login-form" novalidate>
+        <div class="field">
+          <label for="email">Work email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="username"
+            placeholder="name@company.com"
+            required
           />
+          <p class="field-error" data-for="email"></p>
         </div>
-      </div>
-    </aside>
-  </div>
+
+        <div class="field">
+          <label for="password">
+            Password
+            <a href="#" class="link-inline">Forgot password?</a>
+          </label>
+          <div class="password-shell">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              required
+              minlength="8"
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              aria-label="Show password"
+            >
+              <span class="password-toggle-icon" aria-hidden="true"></span>
+            </button>
+          </div>
+          <p class="field-error" data-for="password"></p>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign in</button>
+
+        <div class="divider"><span>or</span></div>
+
+        <button type="button" class="btn btn-secondary btn-sso">
+          Continue with Single Sign-On
+        </button>
+      </form>
+
+      <footer class="login-footer">
+        <p class="login-footer-text">
+          Don’t have access yet?
+          <a href="#" class="link-inline">Request an invite</a>
+        </p>
+        <p class="login-footer-meta">
+          <a href="#" class="link-muted">Privacy Policy</a>
+          <span class="dot">•</span>
+          <a href="#" class="link-muted">Terms of Use</a>
+        </p>
+      </footer>
+    </section>
+  </main>
 
   <script src="script.js"></script>
 </body>
