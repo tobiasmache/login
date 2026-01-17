@@ -1,122 +1,133 @@
-// Simple front-end behavior: password toggle, basic validation, and fake submit
+// Simple front-end behavior: year, password toggle, and basic validation
 
 document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("loginForm");
-  const emailInput = document.getElementById("email");
-  const passwordInput = document.getElementById("password");
-  const formMessage = document.getElementById("formMessage");
-  const passwordToggle = document.querySelector(".password-toggle");
-  const yearSpan = document.getElementById("year");
-  const ssoButton = document.getElementById("ssoButton");
-
   // Set current year in footer
+  const yearSpan = document.getElementById("year");
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
   }
 
-  // Password show/hide toggle
-  if (passwordToggle && passwordInput) {
-    passwordToggle.addEventListener("click", () => {
+  // Password visibility toggle
+  const passwordInput = document.getElementById("password");
+  const toggleBtn = document.querySelector(".password-toggle");
+  if (passwordInput && toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
       const isHidden = passwordInput.type === "password";
       passwordInput.type = isHidden ? "text" : "password";
-
-      const showText = passwordToggle.querySelector(".toggle-text.show");
-      const hideText = passwordToggle.querySelector(".toggle-text.hide");
-
-      if (isHidden) {
-        passwordToggle.setAttribute("aria-label", "Hide password");
-        if (showText) showText.style.display = "none";
-        if (hideText) hideText.style.display = "inline";
-      } else {
-        passwordToggle.setAttribute("aria-label", "Show password");
-        if (showText) showText.style.display = "inline";
-        if (hideText) hideText.style.display = "none";
-      }
+      toggleBtn.classList.toggle("active", isHidden);
+      toggleBtn.setAttribute(
+        "aria-label",
+        isHidden ? "Hide password" : "Show password"
+      );
     });
   }
 
-  // Utility: show field error
-  function setFieldError(inputEl, message) {
-    const fieldName = inputEl.getAttribute("name");
+  // Basic client-side validation
+  const form = document.getElementById("login-form");
+  const globalError = document.getElementById("form-error-global");
+
+  if (form) {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      // Clear previous errors
+      clearErrors();
+
+      const email = document.getElementById("email");
+      const password = document.getElementById("password");
+
+      let hasError = false;
+
+      // Email validation
+      if (!email.value.trim()) {
+        setFieldError("email", "Please enter your work email.");
+        email.classList.add("input-error");
+        hasError = true;
+      } else if (!isValidEmail(email.value.trim())) {
+        setFieldError("email", "Please enter a valid email address.");
+        email.classList.add("input-error");
+        hasError = true;
+      }
+
+      // Password validation
+      if (!password.value) {
+        setFieldError("password", "Please enter your password.");
+        password.classList.add("input-error");
+        hasError = true;
+      } else if (password.value.length < 8) {
+        setFieldError(
+          "password",
+          "Password must be at least 8 characters long."
+        );
+        password.classList.add("input-error");
+        hasError = true;
+      }
+
+      if (hasError) {
+        if (globalError) {
+          globalError.textContent =
+            "There was a problem with your sign-in details. Please review the fields above.";
+        }
+        return;
+      }
+
+      // Simulate submit (replace with actual API call)
+      simulateLogin()
+        .then(() => {
+          // On success: for demo, just show an alert
+          alert("Login successful (demo). Replace with real redirect.");
+          // window.location.href = "/dashboard"; // your real redirect
+        })
+        .catch(() => {
+          if (globalError) {
+            globalError.textContent =
+              "We couldn't sign you in. Please check your credentials and try again.";
+          }
+        });
+    });
+  }
+
+  function setFieldError(fieldId, message) {
     const errorEl = document.querySelector(
-      `.field-error[data-error-for="${fieldName}"]`
+      `.field-error[data-error-for="${fieldId}"]`
     );
-    if (message) {
-      inputEl.classList.add("error");
-      if (errorEl) errorEl.textContent = message;
-    } else {
-      inputEl.classList.remove("error");
-      if (errorEl) errorEl.textContent = "";
+    if (errorEl) {
+      errorEl.textContent = message;
     }
   }
 
-  // Basic validation
-  function validateForm() {
-    let isValid = true;
-
-    // Email
-    const email = emailInput.value.trim();
-    if (!email) {
-      setFieldError(emailInput, "Email is required.");
-      isValid = false;
-    } else if (!/^S+@S+.S+$/.test(email)) {
-      setFieldError(emailInput, "Enter a valid email address.");
-      isValid = false;
-    } else {
-      setFieldError(emailInput, "");
+  function clearErrors() {
+    document
+      .querySelectorAll(".field-error")
+      .forEach((el) => (el.textContent = ""));
+    document
+      .querySelectorAll(".input-error")
+      .forEach((el) => el.classList.remove("input-error"));
+    if (globalError) {
+      globalError.textContent = "";
     }
-
-    // Password
-    const password = passwordInput.value;
-    if (!password) {
-      setFieldError(passwordInput, "Password is required.");
-      isValid = false;
-    } else if (password.length < 8) {
-      setFieldError(passwordInput, "Password must be at least 8 characters.");
-      isValid = false;
-    } else {
-      setFieldError(passwordInput, "");
-    }
-
-    return isValid;
   }
 
-  // Email / password login handler
-  loginForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    formMessage.textContent = "";
-    formMessage.classList.remove("error");
+  function isValidEmail(email) {
+    // Simple email regex for demo
+    return /^[^s@]+@[^s@]+.[^s@]+$/.test(email);
+  }
 
-    const isValid = validateForm();
-    if (!isValid) return;
+  function simulateLogin() {
+    return new Promise((resolve, reject) => {
+      const submitBtn = document.getElementById("login-submit");
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Signing in...";
+      }
 
-    // Simulate async login
-    const submitButton = loginForm.querySelector('button[type="submit"]');
-    const originalText = submitButton.textContent;
-    submitButton.disabled = true;
-    submitButton.textContent = "Signing in…";
-
-    setTimeout(() => {
-      submitButton.disabled = false;
-      submitButton.textContent = originalText;
-
-      // Example: always "fail" to show error message
-      formMessage.textContent =
-        "These credentials don’t match our records. Please try again or use SSO.";
-      formMessage.classList.add("error");
-    }, 900);
-  });
-
-  // SSO button handler – stub/redirection point
-  if (ssoButton) {
-    ssoButton.addEventListener("click", () => {
-      formMessage.classList.remove("error");
-      formMessage.textContent = "Redirecting to your organization's SSO…";
-
-      // Replace this with a real SSO redirect (e.g. window.location = '...';)
       setTimeout(() => {
-        formMessage.textContent =
-          "SSO endpoint not configured in this demo project.";
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Sign in";
+        }
+        // Always resolve in demo (or reject to test error state)
+        resolve();
       }, 1200);
     });
   }
