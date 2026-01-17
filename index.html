@@ -2,135 +2,116 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Celonis – Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- NOTE: I can't see the real site, so this is a high‑fidelity replica structure. 
-       Please replace fonts/colors after inspecting the original page in DevTools. -->
-
-  <!-- Example: if the real page uses Inter or similar, swap this to match -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Celonis Academy – Login</title>
   <link rel="stylesheet" href="styles.css" />
+  <!-- System font stack similar to many enterprise apps -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="page">
-    <!-- Top logo bar -->
-    <header class="header">
-      <div class="header__inner">
-        <a href="#" class="header__logo-link" aria-label="Celonis home">
-          <!-- Replace with the exact logo asset from the live site -->
-          <img src="assets/celonis-logo.svg" alt="Celonis" class="header__logo" />
-        </a>
+  <div class="page-wrapper">
+    <div class="brand-panel">
+      <div class="brand-inner">
+        <div class="brand-logo-group">
+          <!-- Replace src with the exact Celonis Academy logo URL or a local asset if you have it -->
+          <div class="logo-circle">CA</div>
+          <div class="brand-text">
+            <span class="brand-main">Celonis</span>
+            <span class="brand-sub">Academy</span>
+          </div>
+        </div>
+        <h1 class="brand-heading">Welcome to Celonis Academy</h1>
+        <p class="brand-description">
+          Log in to access your courses, certifications, and learning journeys.
+        </p>
       </div>
-    </header>
+    </div>
 
-    <!-- Main content -->
-    <main class="main">
-      <section class="auth">
-        <div class="auth__card">
-          <h1 class="auth__title">Sign in</h1>
-          <p class="auth__subtitle">
-            Sign in with your Celonis account.
-          </p>
+    <div class="login-panel">
+      <div class="login-card">
+        <div class="login-header">
+          <h2 class="login-title">Log in</h2>
+          <p class="login-subtitle">Use your business email to sign in.</p>
+        </div>
 
-          <form class="auth-form" id="loginForm" novalidate>
-            <div class="field">
-              <label for="email" class="field__label">Email</label>
+        <form id="loginForm" class="login-form" novalidate>
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-input"
+              autocomplete="email"
+              required
+              placeholder="name@company.com"
+            />
+            <p class="field-error" data-error-for="email"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <div class="password-wrapper">
               <input
-                type="email"
-                id="email"
-                name="email"
-                class="field__input"
-                autocomplete="email"
+                type="password"
+                id="password"
+                name="password"
+                class="form-input"
+                autocomplete="current-password"
                 required
+                minlength="6"
+                placeholder="Enter your password"
               />
-              <p class="field__error" id="emailError"></p>
+              <button type="button" class="toggle-password" aria-label="Toggle password visibility">
+                <span class="toggle-password-icon" aria-hidden="true"></span>
+              </button>
             </div>
+            <p class="field-error" data-error-for="password"></p>
+          </div>
 
-            <div class="field">
-              <label for="password" class="field__label">Password</label>
-              <div class="field__password-wrapper">
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  class="field__input"
-                  autocomplete="current-password"
-                  required
-                />
-                <button
-                  type="button"
-                  class="field__password-toggle"
-                  id="passwordToggle"
-                  aria-label="Show password"
-                >
-                  <span class="field__password-toggle-icon" aria-hidden="true"></span>
-                </button>
-              </div>
-              <p class="field__error" id="passwordError"></p>
-            </div>
+          <div class="form-row form-row--between">
+            <label class="checkbox-label">
+              <input type="checkbox" id="remember" name="remember" class="checkbox-input" />
+              <span class="checkbox-custom" aria-hidden="true"></span>
+              <span class="checkbox-text">Remember me</span>
+            </label>
 
-            <div class="auth-form__row auth-form__row--between">
-              <label class="checkbox">
-                <input type="checkbox" id="rememberMe" class="checkbox__input" />
-                <span class="checkbox__box"></span>
-                <span class="checkbox__label">Keep me signed in</span>
-              </label>
+            <a href="#" class="link link--small">Forgot password?</a>
+          </div>
 
-              <a href="#" class="link link--small">Forgot password?</a>
-            </div>
+          <button type="submit" class="primary-button">Log in</button>
 
-            <button type="submit" class="btn btn--primary auth-form__submit">
-              Sign in
-            </button>
+          <div class="divider">
+            <span class="divider-line"></span>
+            <span class="divider-text">or</span>
+            <span class="divider-line"></span>
+          </div>
 
-            <!-- Optional: divider + SSO button if present on the original page -->
-            <!--
-            <div class="divider">
-              <span class="divider__line"></span>
-              <span class="divider__text">or</span>
-              <span class="divider__line"></span>
-            </div>
+          <button type="button" class="secondary-button sso-button">
+            <span class="sso-icon" aria-hidden="true"></span>
+            Continue with SSO
+          </button>
+        </form>
 
-            <button type="button" class="btn btn--secondary btn--full">
-              Continue with SSO
-            </button>
-            -->
-          </form>
-
-          <p class="auth__footer-text">
-            Need access?
-            <a href="#" class="link">Contact your Celonis administrator.</a>
-          </p>
-        </div>
-      </section>
-
-      <!-- Right side hero / illustration pane -->
-      <aside class="hero" aria-hidden="true">
-        <div class="hero__gradient"></div>
-        <div class="hero__content">
-          <h2 class="hero__title">The Process Intelligence Company</h2>
-          <p class="hero__text">
-            Unlock value in every process with Celonis.
-          </p>
-        </div>
-      </aside>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="footer__left">
-        <a href="#" class="footer__link">Imprint</a>
-        <a href="#" class="footer__link">Privacy Policy</a>
-        <a href="#" class="footer__link">Terms of Use</a>
+        <p class="signup-text">
+          Don’t have an account?
+          <a href="#" class="link">Sign up for Celonis Academy</a>
+        </p>
       </div>
-      <div class="footer__right">
-        <span class="footer__copy">© <span id="year"></span> Celonis SE</span>
-      </div>
-    </footer>
+
+      <footer class="page-footer">
+        <div class="footer-links">
+          <a href="#" class="footer-link">Privacy Policy</a>
+          <span class="footer-separator">·</span>
+          <a href="#" class="footer-link">Terms of Use</a>
+          <span class="footer-separator">·</span>
+          <a href="#" class="footer-link">Imprint</a>
+        </div>
+        <div class="footer-meta">© <span id="year"></span> Celonis SE. All rights reserved.</div>
+      </footer>
+    </div>
   </div>
 
   <script src="script.js"></script>
