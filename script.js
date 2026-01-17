@@ -1,58 +1,101 @@
+// Celonis Academy login clone behavior
+// - Basic client-side validation
+// - Password show/hide toggle
+// - Dynamic year in footer
+
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("login-form");
+  const loginForm = document.getElementById("loginForm");
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
-  const emailError = document.getElementById("email-error");
-  const passwordError = document.getElementById("password-error");
   const passwordToggle = document.querySelector(".password-toggle");
+  const currentYearSpan = document.getElementById("currentYear");
 
-  // Toggle password visibility
+  if (currentYearSpan) {
+    currentYearSpan.textContent = new Date().getFullYear();
+  }
+
+  function setFieldError(input, message) {
+    const name = input.getAttribute("name");
+    const errorEl = document.querySelector(`[data-error-for="${name}"]`);
+
+    input.classList.toggle("field-invalid", Boolean(message));
+
+    if (errorEl) {
+      errorEl.textContent = message || "";
+    }
+  }
+
+  function validateEmail() {
+    const value = emailInput.value.trim();
+    if (!value) {
+      setFieldError(emailInput, "Email is required.");
+      return false;
+    }
+    const emailPattern = /^[^s@]+@[^s@]+.[^s@]+$/;
+    if (!emailPattern.test(value)) {
+      setFieldError(emailInput, "Enter a valid email address.");
+      return false;
+    }
+    setFieldError(emailInput, "");
+    return true;
+  }
+
+  function validatePassword() {
+    const value = passwordInput.value;
+    if (!value) {
+      setFieldError(passwordInput, "Password is required.");
+      return false;
+    }
+    if (value.length < 6) {
+      setFieldError(passwordInput, "Password must be at least 6 characters.");
+      return false;
+    }
+    setFieldError(passwordInput, "");
+    return true;
+  }
+
+  if (emailInput) {
+    emailInput.addEventListener("blur", validateEmail);
+  }
+
+  if (passwordInput) {
+    passwordInput.addEventListener("blur", validatePassword);
+  }
+
   if (passwordToggle && passwordInput) {
     passwordToggle.addEventListener("click", () => {
       const isPassword = passwordInput.type === "password";
       passwordInput.type = isPassword ? "text" : "password";
-      passwordToggle.textContent = isPassword ? "Hide" : "Show";
+      passwordToggle.setAttribute(
+        "aria-label",
+        isPassword ? "Hide password" : "Show password"
+      );
     });
   }
 
-  // Simple client-side validation (demo only)
-  if (form) {
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
+  if (loginForm) {
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
 
-      let hasError = false;
-      emailError.textContent = "";
-      passwordError.textContent = "";
+      const isEmailValid = validateEmail();
+      const isPasswordValid = validatePassword();
 
-      const email = emailInput.value.trim();
-      const password = passwordInput.value.trim();
-
-      if (!email) {
-        emailError.textContent = "Please enter your email address.";
-        hasError = true;
-      } else if (!isValidEmail(email)) {
-        emailError.textContent = "Please enter a valid email address.";
-        hasError = true;
+      if (!isEmailValid || !isPasswordValid) {
+        return;
       }
 
-      if (!password) {
-        passwordError.textContent = "Please enter your password.";
-        hasError = true;
-      }
+      const payload = {
+        email: emailInput.value.trim(),
+        password: passwordInput.value,
+        rememberMe: document.getElementById("rememberMe")?.checked || false,
+      };
 
-      if (hasError) return;
+      // Here you would POST to the real backend / IdP.
+      // This clone just logs payload to the console.
+      console.log("Submitting login payload (mock):", payload);
 
-      // Demo only: simulate a login request
-      form.classList.add("is-submitting");
-
-      setTimeout(() => {
-        alert("This is a static clone of the Celonis Academy login UI. Hook it up to your backend to perform a real login.");
-        form.classList.remove("is-submitting");
-      }, 800);
+      // Example redirect if you want to jump to the real page after validation:
+      // window.location.href = "https://academy-login.celonis.com/login";
     });
   }
 });
-
-function isValidEmail(value) {
-  return /^[^s@]+@[^s@]+.[^s@]+$/.test(value);
-}
